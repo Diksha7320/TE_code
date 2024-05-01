@@ -10,8 +10,14 @@ language={
     "bye":["goodbye","bye"],
     "response_bye":["bye have a good day!","goodbye,hope to see you soon!"],
     "default":["Sorry,I dont have a answer to your question."],
-    "weather":["How is the weather?"],
-    "response_weather":["The weather today is sunny.","The weather today is rainy.","The weather today is cloudy."]
+    "card":["How do I report a lost or stolen card?"],
+    "response_card":["Call our customer service hotline immediately to report it."]
+    "account":["How do I open a new account?"],
+    "response_account":["Visit our website and follow the prompts to apply online."],
+    "loan":["How do I apply for a loan?"],
+    "response_loan":["Fill out our online loan application form on our website."],
+    "balance":["What's my current account balance?"],
+    "response_balance":["Log in to your online banking account or use our mobile app to check your balance."]
 }
 
 def getUserInput():
