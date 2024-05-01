@@ -1,0 +1,376 @@
+//P1,S1 - Ball Game
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GameController : MonoBehaviour
+{
+    public Rigidbody rb;
+    public float moveSpeed = 10f;
+
+    private float xInput;
+    private float zInput;
+
+    // Start is called before the first frame update
+    void Awake()
+    {
+        rb=GetComponent<Rigidbody>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //good for handling inputs and animation
+        ProcessInputs();
+    }
+
+    //called after every certain interval pf time
+    private void FixedUpdate()
+    {
+        //movement
+        Move();
+    }
+
+    private void ProcessInputs()
+    {
+        xInput = Input.GetAxis("Horizontal");
+        zInput = Input.GetAxis("Vertical");
+        
+    }
+
+    private void Move()
+    {
+        rb.AddForce(new Vector3(xInput, 0f, zInput)* moveSpeed);
+    }
+}
+
+
+//p1,s2
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CameraController : MonoBehaviour
+{
+   public GameObject target;
+   public float xOffset, yOffset, zOffset;
+
+    // Update is called once per frame
+    void Update()
+    {
+        transform.position = target.transform.position + new Vector3(xOffset,yOffset,zOffset);
+        transform.LookAt(target.transform.position);
+    }
+}
+
+//p1,s3
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class Reset : MonoBehaviour
+{
+     public float threshold = -50f;
+    
+    // Update is called once per frame
+    void Update()
+    {
+        if(transform.position.y < threshold)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
+}
+
+//p1,s4
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class Goal : MonoBehaviour
+{
+   public void OnTriggerEnter(Collider other)
+   {
+    GameController component = other.GameObject.GetComponent<PlayerController>();
+    if(component != null)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1)
+    }
+   }
+}
+
+//p2 - DayNight
+
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class SceneChanger : MonoBehaviour
+{
+    public void ChangeScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
+	public void OnMouseDown()
+	{
+		ChangeScene("Night");
+	}
+}
+
+//p3 - Candle
+
+using UnityEngine;
+
+public class CandleController : MonoBehaviour
+{
+    public GameObject flameParticle; // Reference to the flame particle effect
+    private bool isLit = false; // Flag to track if the candle is lit
+
+    void Start()
+    {
+        // Ensure flame and smoke particles are initially disabled
+        flameParticle.SetActive(false);
+    }
+
+    void Update()
+    {
+        // Check for mouse button click
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Toggle candle state
+            ToggleCandle();
+        }
+    }
+
+    void ToggleCandle()
+    {
+        // Toggle candle state
+        isLit = !isLit;
+
+        // Enable/disable flame and smoke particles based on candle state
+        flameParticle.SetActive(isLit);
+    }
+}
+
+//p4 - emotion change
+
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class SceneChanger : MonoBehaviour
+{
+    public void ChangeScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
+	public void OnMouseDown()
+	{
+		ChangeScene("Happy");
+	}
+}
+
+//p6,p7,p13 - 3d table model, props interaction, collision
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerControlBall : MonoBehaviour
+{
+    public Rigidbody rb;
+    private float speed = 5f;
+    private float xInput;
+    private float zInput;
+
+    void awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        ProcessInput();
+    }
+
+    private void FixedUpdate()
+    {
+        move();
+    }
+
+    private void ProcessInput() 
+    {
+        xInput = Input.GetAxis("Horizontal");
+        zInput = Input.GetAxis("Vertical");
+    }
+
+    private void move()
+    {
+        rb.AddForce(new Vector3(xInput, 0, zInput) * speed);
+    }
+
+}
+
+//p5 - kicking ball
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    public GameObject ball1; // Reference to the ball object
+    public GameObject ball2; // Reference to the ball object
+    public GameObject ball3; // Reference to the ball object
+                            // public float kickForce; // Variable to store the force applied to the ball
+    public float lowKickForce = 50;
+    public float mediumKickForce = 100;
+    public float highKickForce = 150;
+    private Rigidbody ballRigidbody1;
+    private Rigidbody ballRigidbody2;
+    private Rigidbody ballRigidbody3;
+    // Start is called before the first frame update
+    void Start()
+    {
+        ballRigidbody1 = ball1.GetComponent<Rigidbody>();
+        ballRigidbody2 = ball2.GetComponent<Rigidbody>();
+        ballRigidbody3 = ball3.GetComponent<Rigidbody>();
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (Input.GetKey(KeyCode.A))
+        {
+            // Apply low kick force
+            ballRigidbody1.AddForce(new Vector3(1.0f, 0.5f, 0.0f) * lowKickForce);
+            // Apply medium kick force
+            ballRigidbody2.AddForce(new Vector3(1.0f, 0.5f, 0.0f) * mediumKickForce);
+            // Apply high kick force
+            ballRigidbody3.AddForce(new Vector3(1.0f, 0.5f, 0.0f) * highKickForce);
+        }
+    }
+}
+
+//p11- 2D character controller
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    private float horizontal;
+    private float speed = 8f;
+    private float jumpForce = 16f;
+    private bool isFacingRight = true;  
+
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundLayer;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        horizontal = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKeyDown(KeyCode.W) && IsGrounded())
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
+
+        Flip();
+    }
+
+    private void FixedUpdate()
+    {
+        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
+    }
+
+    private void Flip()
+    {
+        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
+        {
+            isFacingRight = !isFacingRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+        }
+    }
+}
+
+//p12- 2d character controller- frame independent
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    private float horizontal;
+    private float speed = 8f;
+    private float jumpForce = 16f;
+    private bool isFacingRight = true;  
+
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundLayer;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        horizontal = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKeyDown(KeyCode.W) && IsGrounded())
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
+
+        Flip();
+    }
+
+    private void FixedUpdate()
+    {
+        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
+    }
+
+    private void Flip()
+    {
+        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
+        {
+            isFacingRight = !isFacingRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+        }
+    }
+}
