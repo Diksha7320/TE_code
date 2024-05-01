@@ -11,7 +11,7 @@ language={
     "response_bye":["bye have a good day!","goodbye,hope to see you soon!"],
     "default":["Sorry,I dont have a answer to your question."],
     "card":["How do I report a lost or stolen card?"],
-    "response_card":["Call our customer service hotline immediately to report it."]
+    "response_card":["Call our customer service hotline immediately to report it."],
     "account":["How do I open a new account?"],
     "response_account":["Visit our website and follow the prompts to apply online."],
     "loan":["How do I apply for a loan?"],
